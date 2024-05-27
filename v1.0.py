@@ -1,17 +1,3 @@
-'''
-Projeto:
-Automação utilizada para gerar legenda de vídeos do youtube.
-
-Modo de utilização:
-Colar o link do vídeo que quer a legenda, esperar o programa fazer a conversão,
-e escolher o diretório de onde quer salvar o arquivo .txt
-
-Como foi feito?
-Esta versão só estava funcionando o donwload e não a conversão
-
-Documentação presente no portfólio pessoal no github.com/vmellozk
-'''
-
 #Bibliotecas necessárias para o funcionamento
 import yt_dlp
 import whisper
