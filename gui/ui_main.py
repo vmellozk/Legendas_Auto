@@ -116,6 +116,17 @@ class MainWindow(QWidget):
         output_layout = QHBoxLayout()
         self.output_dir = QLineEdit()
         browse_button = QPushButton("Pasta de destino")
+        
+        filename_group = QGroupBox("Nome do arquivo:")
+        filename_layout = QHBoxLayout()
+        self.filename_input = QLineEdit()
+        self.filename_input.setText("audio")
+        filename_layout.addWidget(self.filename_input)
+        ext_label = QLabel(".mp3")
+        filename_layout.addWidget(ext_label)
+        filename_group.setLayout(filename_layout)
+        layout.addWidget(filename_group)
+        
         desktop_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.DesktopLocation)
         self.output_dir.setText(desktop_path)
         browse_button.clicked.connect(self.select_output_dir)
@@ -187,10 +198,23 @@ class MainWindow(QWidget):
 
     def download_audio_youtube_ui(self):
         url = self.youtube_url.text()
-        output = self.output_dir.text()
-        if url and output:
-            download_audio_youtube(url, os.path.join(output, 'audio.mp3'))
-            self.show_message("Download realizado!")
+        output_dir = self.output_dir.text()
+        filename = self.filename_input.text()
+
+        if url and output_dir and filename:
+            filename_with_ext = filename + ".mp3"
+            filepath = os.path.join(output_dir, filename_with_ext)
+
+            base, ext = os.path.splitext(filepath)
+            counter = 1
+            while os.path.exists(filepath):
+                filepath = f"{base}_{counter}{ext}"
+                counter += 1
+
+            download_audio_youtube(url, filepath)
+            self.show_message(f"Download realizado!\nArquivo salvo em:\n{filepath}")
+        else:
+            self.show_message("Por favor, preencha a URL, o diretório e o nome do arquivo.")
 
     def download_and_transcribe(self):
         url = self.youtube_url.text()
