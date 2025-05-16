@@ -1,4 +1,4 @@
-# 📝 Gerador de Legendas e Transcrições com IA
+# 📝 Gerador de Legendas
 
 Ferramenta com interface gráfica que transforma automaticamente o áudio de vídeos em texto, utilizando inteligência artificial. Ideal para criar transcrições, apoiar a acessibilidade, organizar conteúdos e auxiliar nos estudos.
 
