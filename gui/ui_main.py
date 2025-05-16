@@ -1,51 +1,138 @@
 import os
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog,
-    QVBoxLayout, QTabWidget, QMessageBox
+    QVBoxLayout, QTabWidget, QMessageBox, QHBoxLayout, QGroupBox,
+    QProgressBar, QTextEdit
 )
 
 from core.youtube import download_audio_youtube
 from core.instagram import download_video_instagram
 from core.transcription import transcribe_and_save_audio_youtube
+from PySide6.QtGui import QIcon
 
+MINIMAL_STYLE = """
+QWidget {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 12pt;
+}
 
-class AudioConverterApp(QMainWindow):
+QPushButton {
+    background-color: #007acc;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: white;
+}
+
+QPushButton:hover {
+    background-color: #005f9e;
+}
+
+QGroupBox {
+    border: 1px solid #444;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 4px;
+    color: #aaa;
+    font-weight: bold;
+}
+
+QLineEdit, QLabel {
+    font-size: 11pt;
+}
+
+QProgressBar {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+QProgressBar::chunk {
+    background-color: #00bcd4;
+    width: 20px;
+}
+"""
+
+class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Conversor de Áudio em Texto")
-        self.setFixedSize(400, 300)
+        self.setWindowTitle("Gerador de Legendas com IA")
+        self.setWindowIcon(QIcon("assets/icon.png"))
+        self.setMinimumSize(600, 400)
+        self.setStyleSheet(MINIMAL_STYLE)
+        self.init_ui()
 
-        tabs = QTabWidget()
-        tabs.addTab(self.youtube_tab_ui(), "YouTube")
-        tabs.addTab(self.instagram_tab_ui(), "Instagram")
+    def init_ui(self):
+        layout = QVBoxLayout()
 
-        self.setCentralWidget(tabs)
+        # Header
+        header = QLabel("🎙️ Gerador de Legendas")
+        header.setStyleSheet("font-size: 20pt; font-weight: bold;")
+        layout.addWidget(header)
+
+        # Tabs
+        self.tabs = QTabWidget()
+        self.tabs.addTab(self.youtube_tab_ui(), "YouTube")
+        self.tabs.addTab(self.instagram_tab_ui(), "Instagram")
+        layout.addWidget(self.tabs)
+
+        # Progresso e Logs
+        self.progress = QProgressBar()
+        self.logs = QTextEdit()
+        self.logs.setReadOnly(True)
+        self.logs.setPlaceholderText("Log de atividades...")
+        layout.addWidget(self.progress)
+        layout.addWidget(self.logs)
+
+        # Rodapé
+        footer = QLabel("Criado com 💙 por vmellozk")
+        footer.setStyleSheet("font-size: 10pt; color: #888;")
+        layout.addWidget(footer)
+
+        self.setLayout(layout)
 
     def youtube_tab_ui(self):
         widget = QWidget()
         layout = QVBoxLayout()
 
+        url_group = QGroupBox("Cole sua URL aqui:")
+        url_layout = QHBoxLayout()
         self.youtube_url = QLineEdit()
-        self.youtube_url.setPlaceholderText("Cole sua URL aqui")
-        layout.addWidget(QLabel("URL do YouTube:"))
-        layout.addWidget(self.youtube_url)
+        url_layout.addWidget(self.youtube_url)
+        url_group.setLayout(url_layout)
+        layout.addWidget(url_group)
 
+        output_group = QGroupBox("Salvar em:")
+        output_layout = QHBoxLayout()
         self.output_dir = QLineEdit()
-        self.output_dir.setPlaceholderText("Escolha a pasta de destino")
-        layout.addWidget(QLabel("Salvar em:"))
-        layout.addWidget(self.output_dir)
-
         browse_button = QPushButton("Procurar")
         browse_button.clicked.connect(self.select_output_dir)
-        layout.addWidget(browse_button)
+        output_layout.addWidget(self.output_dir)
+        output_layout.addWidget(browse_button)
+        output_group.setLayout(output_layout)
+        layout.addWidget(output_group)
 
+        actions_group = QGroupBox("Ações")
+        actions_layout = QHBoxLayout()
         download_button = QPushButton("Baixar Áudio YT")
         download_button.clicked.connect(self.download_audio_youtube_ui)
-        layout.addWidget(download_button)
 
         convert_button = QPushButton("Baixar e Converter Áudio em Texto")
         convert_button.clicked.connect(self.download_and_transcribe)
-        layout.addWidget(convert_button)
+
+        actions_layout.addWidget(download_button)
+        actions_layout.addWidget(convert_button)
+        actions_group.setLayout(actions_layout)
+        layout.addWidget(actions_group)
 
         widget.setLayout(layout)
         return widget
@@ -54,27 +141,34 @@ class AudioConverterApp(QMainWindow):
         widget = QWidget()
         layout = QVBoxLayout()
 
+        url_group = QGroupBox("Cole sua URL aqui:")
+        url_layout = QHBoxLayout()
         self.instagram_url = QLineEdit()
-        self.instagram_url.setPlaceholderText("Cole sua URL aqui")
-        layout.addWidget(QLabel("URL do Instagram:"))
-        layout.addWidget(self.instagram_url)
+        url_layout.addWidget(self.instagram_url)
+        url_group.setLayout(url_layout)
+        layout.addWidget(url_group)
 
+        output_group = QGroupBox("Salvar em:")
+        output_layout = QHBoxLayout()
         self.output_dir_ig = QLineEdit()
-        self.output_dir_ig.setPlaceholderText("Escolha a pasta de destino")
-        layout.addWidget(QLabel("Salvar em:"))
-        layout.addWidget(self.output_dir_ig)
-
         browse_button = QPushButton("Procurar")
         browse_button.clicked.connect(self.select_output_dir_ig)
-        layout.addWidget(browse_button)
+        output_layout.addWidget(self.output_dir_ig)
+        output_layout.addWidget(browse_button)
+        output_group.setLayout(output_layout)
+        layout.addWidget(output_group)
 
+        actions_group = QGroupBox("Ações")
+        actions_layout = QHBoxLayout()
         download_button = QPushButton("Baixar Vídeo IG")
         download_button.clicked.connect(self.download_video_instagram_ui)
-        layout.addWidget(download_button)
+        actions_layout.addWidget(download_button)
+        actions_group.setLayout(actions_layout)
+        layout.addWidget(actions_group)
 
         widget.setLayout(layout)
         return widget
-
+    
     def select_output_dir(self):
         path = QFileDialog.getExistingDirectory(self, "Selecionar Diretório")
         if path:
