@@ -1,9 +1,10 @@
 import os
 from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog,
+    QWidget, QPushButton, QLabel, QLineEdit, QFileDialog,
     QVBoxLayout, QTabWidget, QMessageBox, QHBoxLayout, QGroupBox,
     QProgressBar, QTextEdit
 )
+from PySide6.QtCore import QStandardPaths
 
 from core.youtube import download_audio_youtube
 from core.instagram import download_video_instagram
@@ -114,7 +115,9 @@ class MainWindow(QWidget):
         output_group = QGroupBox("Salvar em:")
         output_layout = QHBoxLayout()
         self.output_dir = QLineEdit()
-        browse_button = QPushButton("Procurar")
+        browse_button = QPushButton("Pasta de destino")
+        desktop_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.DesktopLocation)
+        self.output_dir.setText(desktop_path)
         browse_button.clicked.connect(self.select_output_dir)
         output_layout.addWidget(self.output_dir)
         output_layout.addWidget(browse_button)
