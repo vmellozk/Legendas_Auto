@@ -6,7 +6,6 @@ Ferramenta com interface gráfica que transforma automaticamente o áudio de ví
 
 - 🎙️ Transcrição automática de áudio com alta precisão (.txt)
 - 🎞️ Geração de legendas sincronizadas (em breve)
-- 📥 Download direto de vídeos do YouTube e Instagram
 - 🌐 Suporte multilíngue (em desenvolvimento)
 - 🧠 IA baseada no modelo Whisper da OpenAI
 - 🖥️ Interface gráfica moderna com PySide6
@@ -68,6 +67,8 @@ python audio_transcriber.py
 
 ```kotlin
 📁 criador-legendas/
+├── assets/                # Pasta com arquivos de imagens do aplicativo
+│ 
 ├── core/                  # Funções principais (transcrição, download, etc.)
 │   ├── instagram.py
 │   ├── transcription.py
