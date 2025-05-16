@@ -135,15 +135,11 @@ class MainWindow(QWidget):
         output_group.setLayout(output_layout)
         layout.addWidget(output_group)
 
-        actions_group = QGroupBox("Ações")
+        actions_group = QGroupBox("Ação")
         actions_layout = QHBoxLayout()
-        download_button = QPushButton("Baixar Áudio YT")
-        download_button.clicked.connect(self.download_audio_youtube_ui)
-
         convert_button = QPushButton("Baixar e Converter Áudio em Texto")
         convert_button.clicked.connect(self.download_and_transcribe)
 
-        actions_layout.addWidget(download_button)
         actions_layout.addWidget(convert_button)
         actions_group.setLayout(actions_layout)
         layout.addWidget(actions_group)
@@ -172,7 +168,7 @@ class MainWindow(QWidget):
         output_group.setLayout(output_layout)
         layout.addWidget(output_group)
 
-        actions_group = QGroupBox("Ações")
+        actions_group = QGroupBox("Ação")
         actions_layout = QHBoxLayout()
         download_button = QPushButton("Baixar Vídeo IG")
         download_button.clicked.connect(self.download_video_instagram_ui)
@@ -196,35 +192,38 @@ class MainWindow(QWidget):
     def show_message(self, message):
         QMessageBox.information(self, "Info", message)
 
-    def download_audio_youtube_ui(self):
-        url = self.youtube_url.text()
-        output_dir = self.output_dir.text()
-        filename = self.filename_input.text()
-
-        if url and output_dir and filename:
-            filename_with_ext = filename + ".mp3"
-            filepath = os.path.join(output_dir, filename_with_ext)
-
-            base, ext = os.path.splitext(filepath)
-            counter = 1
-            while os.path.exists(filepath):
-                filepath = f"{base}_{counter}{ext}"
-                counter += 1
-
-            download_audio_youtube(url, filepath)
-            self.show_message(f"Download realizado!\nArquivo salvo em:\n{filepath}")
-        else:
-            self.show_message("Por favor, preencha a URL, o diretório e o nome do arquivo.")
-
     def download_and_transcribe(self):
-        url = self.youtube_url.text()
-        output = self.output_dir.text()
-        audio_path = os.path.join(output, 'audio.mp3')
-        transcription_path = os.path.join(output, 'transcription.txt')
+        url = self.youtube_url.text().strip()
+        output = self.output_dir.text().strip()
+        filename = self.filename_input.text().strip()
+        if not filename:
+            filename = "audio"
+            
         if url and output:
-            download_audio_youtube(url, audio_path)
+            audio_base = os.path.join(output, filename)
+            counter = 1
+            temp_audio_base = audio_base
+            while os.path.exists(f"{temp_audio_base}.mp3"):
+                temp_audio_base = f"{audio_base}_{counter}"
+                counter += 1
+            audio_base = temp_audio_base
+            
+            transcription_path = os.path.join(output, 'transcription')
+            counter_txt = 1
+            temp_transcription_path = f"{transcription_path}.txt"
+            while os.path.exists(temp_transcription_path):
+                temp_transcription_path = f"{transcription_path}_{counter_txt}.txt"
+                counter_txt += 1
+            transcription_path = temp_transcription_path
+
+            download_audio_youtube(url, audio_base)
+            audio_path = f"{audio_base}.mp3"
+            
             transcribe_and_save_audio_youtube(audio_path, transcription_path)
             self.show_message("Download e transcrição realizados!")
+            
+        else:
+            self.show_message("Por favor, preencha a URL e o diretório de saída.")
 
     def download_video_instagram_ui(self):
         url = self.instagram_url.text()
