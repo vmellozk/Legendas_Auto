@@ -20,16 +20,18 @@ class DownloadTranscribeWorker(QThread):
 
     def run(self):
         try:
+            filename = self.filename or "transcription"
+            
             self.log("Processando o seu vídeo para gerar a legenda...")
             time.sleep(3)
 
             audio_base = os.path.join(self.output_dir, self.filename)
             counter = 1
             while os.path.exists(f"{audio_base}.mp3"):
-                audio_base = f"{os.path.join(self.output_dir, self.filename)}_{counter}"
+                audio_base = f"{os.path.join(self.output_dir, filename)}_{counter}"
                 counter += 1
 
-            transcription_path = os.path.join(self.output_dir, 'transcription')
+            transcription_path = os.path.join(self.output_dir, filename)
             counter_txt = 1
             temp_transcription_path = f"{transcription_path}.txt"
             while os.path.exists(temp_transcription_path):
