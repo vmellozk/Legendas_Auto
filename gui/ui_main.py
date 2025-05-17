@@ -1,4 +1,3 @@
-import os
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QLabel, QLineEdit, QFileDialog,
     QVBoxLayout, QTabWidget, QMessageBox, QHBoxLayout, QGroupBox,
@@ -167,7 +166,8 @@ class MainWindow(QWidget):
 
     def on_process_finished(self, transcription_path):
         self.log(f"O texto está salvo em: {transcription_path}")
-        self.show_message("Download e transcrição realizados com sucesso!")
+        self.show_message("Audio convertido em texto com sucesso!")
+        self.log("Obrigado por usar o Gerador de Legendas com IA! 😊")
 
     def on_process_error(self, error_msg):
         self.log(f"Erro: {error_msg}")
