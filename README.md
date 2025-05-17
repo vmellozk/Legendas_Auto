@@ -102,4 +102,24 @@ python audio_transcriber.py
 Este projeto está licenciado sob a Licença MIT. Disponibilizarei o arquivo 'LICENSE' para mais detalhes.
 
 ## 🤝 Contribuições
-Contribuições são bem-vindas! Fique à vontade para abrir issues ou pull requests.
+
+1. Faça um **fork** do projeto
+
+2. Crie uma **branch**:  
+```bash
+git checkout -b nova-funcionalidade
+```
+
+3. Faça o commit das suas alterações:
+
+```bash
+git commit -m 'Adiciona nova funcionalidade'
+```
+
+4. Faça o push para a branch:
+
+```bash
+git push origin nova-funcionalidade
+```
+
+5. Abra um Pull Request
