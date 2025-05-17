@@ -2,14 +2,13 @@ import os
 from PySide6.QtWidgets import (
     QWidget, QPushButton, QLabel, QLineEdit, QFileDialog,
     QVBoxLayout, QTabWidget, QMessageBox, QHBoxLayout, QGroupBox,
-    QProgressBar, QTextEdit
+    QProgressBar, QTextEdit, QApplication
 )
 from PySide6.QtCore import QStandardPaths
 from gui.styles import MINIMAL_STYLE
+from .worker import DownloadTranscribeWorker
 
-from core.youtube import download_audio_youtube
 from core.instagram import download_video_instagram
-from core.transcription import transcribe_and_save_audio_youtube
 from PySide6.QtGui import QIcon
 
 class MainWindow(QWidget):
@@ -140,39 +139,39 @@ class MainWindow(QWidget):
 
     def show_message(self, message):
         QMessageBox.information(self, "Info", message)
+        
+    def log(self, message):
+        self.logs.append(message)
+        QApplication.processEvents()  # força atualização da UI para mostrar o texto imediatamente
 
     def download_and_transcribe(self):
         url = self.youtube_url.text().strip()
         output = self.output_dir.text().strip()
-        filename = self.filename_input.text().strip()
-        if not filename:
-            filename = "audio"
-            
-        if url and output:
-            audio_base = os.path.join(output, filename)
-            counter = 1
-            temp_audio_base = audio_base
-            while os.path.exists(f"{temp_audio_base}.mp3"):
-                temp_audio_base = f"{audio_base}_{counter}"
-                counter += 1
-            audio_base = temp_audio_base
-            
-            transcription_path = os.path.join(output, 'transcription')
-            counter_txt = 1
-            temp_transcription_path = f"{transcription_path}.txt"
-            while os.path.exists(temp_transcription_path):
-                temp_transcription_path = f"{transcription_path}_{counter_txt}.txt"
-                counter_txt += 1
-            transcription_path = temp_transcription_path
+        filename = self.filename_input.text().strip() or "audio"
 
-            download_audio_youtube(url, audio_base)
-            audio_path = f"{audio_base}.mp3"
-            
-            transcribe_and_save_audio_youtube(audio_path, transcription_path)
-            self.show_message("Download e transcrição realizados!")
-            
-        else:
+        if not url or not output:
             self.show_message("Por favor, preencha a URL e o diretório de saída.")
+            return
+
+        self.logs.clear()
+
+        self.worker = DownloadTranscribeWorker(url, output, filename)
+        self.worker.log_signal.connect(self.log)
+        self.worker.finished_signal.connect(self.on_process_finished)
+        self.worker.error_signal.connect(self.on_process_error)
+        self.worker.start()
+        
+    def log(self, message):
+        self.logs.append(message)
+        QApplication.processEvents()
+
+    def on_process_finished(self, transcription_path):
+        self.log(f"O texto está salvo em: {transcription_path}")
+        self.show_message("Download e transcrição realizados com sucesso!")
+
+    def on_process_error(self, error_msg):
+        self.log(f"Erro: {error_msg}")
+        self.show_message(f"Ocorreu um erro: {error_msg}")
 
     def download_video_instagram_ui(self):
         url = self.instagram_url.text()
