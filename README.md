@@ -1,104 +1,112 @@
-# 📝 Gerador de Legendas
+# 🎥 Downloader de Vídeos e Áudios com Interface Gráfica
 
-Ferramenta com interface gráfica que transforma automaticamente o áudio de vídeos em texto, utilizando inteligência artificial. Ideal para criar transcrições, apoiar a acessibilidade, organizar conteúdos e auxiliar nos estudos.
-
-## ✨ Funcionalidades
-
-- 🎙️ Transcrição automática de áudio com alta precisão (.txt)
-- 🎞️ Geração de legendas sincronizadas (em breve)
-- 🌐 Suporte multilíngue (em desenvolvimento)
-- 🧠 IA baseada no modelo Whisper da OpenAI
-- 🖥️ Interface gráfica moderna com PySide6
-- 💾 Salvamento automático em diretórios definidos pelo usuário
+Este projeto foi criado para oferecer uma solução **gratuita** e **acessível** para baixar vídeos e áudios de diversas plataformas, como **YouTube** e **redes sociais**.  
+Ideal para quem deseja salvar conteúdos para **estudo**, **trabalho** ou **lazer**, sem depender de ferramentas pagas ou com anúncios.
 
 ---
 
-## 📷 Demonstração
+## 🔧 Tecnologias Utilizadas
 
-![Demonstração da interface](imagem.png)
-
----
-
-## ⚙️ Tecnologias Utilizadas
-
-- [Whisper (OpenAI)](https://github.com/openai/whisper) – Transcrição com IA
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) – Download de vídeos do YouTube e Instagram
-- [PySide6 (Qt)](https://doc.qt.io/qtforpython/) – Interface gráfica
-- [Instaloader](https://instaloader.github.io/) – Suporte complementar ao Instagram
-- `os`, `pathlib`, `shutil`, entre outros – Manipulação de arquivos
+- **[yt_dlp](https://github.com/yt-dlp/yt-dlp)** – Biblioteca poderosa para download de vídeos e áudios de múltiplas plataformas.  
+- **[PySimpleGUI](https://pysimplegui.readthedocs.io/)** – Interface gráfica simples, leve e intuitiva.  
+- **os** – Manipulação de arquivos e diretórios no sistema operacional.
 
 ---
 
-## 🚀 Como Usar
+## 📌 Como Funciona
 
-1. Clone o repositório:
+1. O usuário insere o **link** do conteúdo desejado.
+2. Escolhe o **formato** de saída: vídeo completo ou apenas áudio.
+3. Define a **pasta de destino** onde o conteúdo será salvo.
+4. Com um clique, o sistema realiza o **download automático** e salva o arquivo.
+
+---
+
+## 🚀 Como Executar o Projeto
+
+1. **Clone este repositório**:
 
 ```bash
-git clone https://github.com/vmellozk/criador-legendas.git
-cd criador-legendas
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
+cd nome-do-repositorio
 ```
 
-2. Crie e ative um ambiente virtual (opcional, mas recomendado):
+2. Crie um ambiente virtual (opcional, mas recomendado):
 
 ```bash
 python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
 ```
 
-4. Ative o ambiente virtual:
+3. Ativar o ambiente virtual:
 
 ```bash
-source venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate     # Windows
+./venv/scripts/activate
 ```
 
-5. Instale as dependências:
+4. Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-5. Execute a aplicação:
+5. Execute o script principal:
 
 ```bash
-python audio_transcriber.py
+python main.py
 ```
 
-## 🛠️ Estrutura do Projeto
+## 📦 Requisitos
+Python 3.7+
 
-```kotlin
-📁 criador-legendas/
-├── assets/                # Pasta com arquivos de imagens do aplicativo
-│ 
-├── core/                  # Funções principais (transcrição, download, etc.)
-│   ├── instagram.py
-│   ├── transcription.py
-│   └── youtube.py
-│
-├── gui/                   # Interface gráfica com PySide6
-│   ├── __init__.py
-│   └── ui_main.py
-│
-├── main.py                # Arquivo principal para iniciar a aplicação
-├── requirements.txt       # Dependências do projeto
-└── README.md              # Documentação
+yt_dlp
+
+PySimpleGUI
+
+## 🔄 Em Desenvolvimento Contínuo
+
+- Suporte a mais plataformas  
+- Melhoria na verificação e validação de links  
+- Mais opções de formatos e qualidades de saída  
+- Interface cada vez mais amigável e responsiva  
+
+---
+
+## 💡 Sobre o Projeto
+
+Este é um projeto independente, com foco em:
+
+- Praticidade  
+- Eficiência  
+- Liberdade de acesso ao conteúdo  
+
+Sinta-se à vontade para contribuir, sugerir melhorias ou relatar problemas.
+
+---
+
+## 🤝 Contribuindo
+
+1. Faça um **fork** do projeto
+
+2. Crie uma **branch**:  
+```bash
+git checkout -b nova-funcionalidade
 ```
 
-## 📌 Aplicações
+3. Faça o commit das suas alterações:
 
-- Acessibilidade para pessoas com deficiência auditiva
-- Transcrição de entrevistas, aulas, podcasts e vídeos
-- Organização de conteúdos audiovisuais
-- Apoio a estudos e produção de material didático
+```bash
+git commit -m 'Adiciona nova funcionalidade'
+```
 
-## 🧪 Em Desenvolvimento
+4. Faça o push para a branch:
 
-- Tradução automática de transcrições
-- Suporte completo a múltiplos idiomas
-- Exportação para PDF e outros formatos
-- Otimização da segmentação e pontuação
+```bash
+git push origin nova-funcionalidade
+```
+
+5. Abra um Pull Request
 
 ## 📄 Licença
-Este projeto está licenciado sob a Licença MIT. Disponibilizarei o arquivo 'LICENSE' para mais detalhes.
-
-## 🤝 Contribuições
-Contribuições são bem-vindas! Fique à vontade para abrir issues ou pull requests.
+Este projeto está sob a licença MIT. O arquivo 'LICENSE' será adicionado para mais detalhes.
