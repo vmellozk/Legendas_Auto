@@ -96,6 +96,7 @@ python audio_transcriber.py
 - Suporte completo a múltiplos idiomas
 - Exportação para PDF e outros formatos
 - Otimização da segmentação e pontuação
+- Build para transformar em um App Executável
 
 ## 📄 Licença
 Este projeto está licenciado sob a Licença MIT. Disponibilizarei o arquivo 'LICENSE' para mais detalhes.
