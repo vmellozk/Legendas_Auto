@@ -30,7 +30,7 @@ class MainWindow(QWidget):
         # Tabs
         self.tabs = QTabWidget()
         self.tabs.addTab(self.youtube_tab_ui(), "YouTube")
-        self.tabs.addTab(self.instagram_tab_ui(), "Instagram")
+        #self.tabs.addTab(self.instagram_tab_ui(), "Instagram")
         layout.addWidget(self.tabs)
 
         # Progresso e Logs
@@ -84,7 +84,7 @@ class MainWindow(QWidget):
 
         actions_group = QGroupBox("Ação")
         actions_layout = QHBoxLayout()
-        convert_button = QPushButton("Baixar e Converter Áudio em Texto")
+        convert_button = QPushButton("Converter áudio em texto")
         convert_button.clicked.connect(self.download_and_transcribe)
 
         actions_layout.addWidget(convert_button)
@@ -94,7 +94,7 @@ class MainWindow(QWidget):
         widget.setLayout(layout)
         return widget
 
-    def instagram_tab_ui(self):
+    '''def instagram_tab_ui(self):
         widget = QWidget()
         layout = QVBoxLayout()
 
@@ -124,7 +124,7 @@ class MainWindow(QWidget):
         layout.addWidget(actions_group)
 
         widget.setLayout(layout)
-        return widget
+        return widget'''
     
     def select_output_dir(self):
         path = QFileDialog.getExistingDirectory(self, "Selecionar Diretório")
