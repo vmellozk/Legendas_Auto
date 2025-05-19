@@ -11,13 +11,12 @@ Ferramenta com interface gráfica que transforma automaticamente o áudio de ví
 - 🖥️ Interface gráfica moderna com PySide6
 - 💾 Salvamento automático em diretórios definidos pelo usuário
 
----
+## 📌 Aplicações
 
-## 📷 Demonstração
-
-![Demonstração da interface](imagem.png)
-
----
+- Acessibilidade para pessoas com deficiência auditiva
+- Transcrição de entrevistas, aulas, podcasts e vídeos
+- Organização de conteúdos audiovisuais
+- Apoio a estudos e produção de material didático
 
 ## ⚙️ Tecnologias Utilizadas
 
@@ -27,7 +26,17 @@ Ferramenta com interface gráfica que transforma automaticamente o áudio de ví
 - [Instaloader](https://instaloader.github.io/) – Suporte complementar ao Instagram
 - `os`, `pathlib`, `shutil`, entre outros – Manipulação de arquivos
 
----
+## 🎬 Demonstração do Projeto (Vídeo)
+
+[![Assista à apresentação no YouTube](https://img.youtube.com/vi/VgotVRvI0uw/maxresdefault.jpg)](https://www.youtube.com/watch?v=VgotVRvI0uw)
+
+## 🧪 Em Desenvolvimento
+
+- Tradução automática de transcrições
+- Suporte completo a múltiplos idiomas
+- Exportação para PDF e outros formatos
+- Otimização da segmentação e pontuação
+- Build para transformar em um App Executável
 
 ## 🚀 Como Usar
 
@@ -83,24 +92,6 @@ python audio_transcriber.py
 └── README.md              # Documentação
 ```
 
-## 📌 Aplicações
-
-- Acessibilidade para pessoas com deficiência auditiva
-- Transcrição de entrevistas, aulas, podcasts e vídeos
-- Organização de conteúdos audiovisuais
-- Apoio a estudos e produção de material didático
-
-## 🧪 Em Desenvolvimento
-
-- Tradução automática de transcrições
-- Suporte completo a múltiplos idiomas
-- Exportação para PDF e outros formatos
-- Otimização da segmentação e pontuação
-- Build para transformar em um App Executável
-
-## 📄 Licença
-Este projeto está licenciado sob a Licença MIT. Disponibilizarei o arquivo 'LICENSE' para mais detalhes.
-
 ## 🤝 Contribuições
 
 1. Faça um **fork** do projeto
@@ -123,3 +114,6 @@ git push origin nova-funcionalidade
 ```
 
 5. Abra um Pull Request
+
+## 📄 Licença
+Este projeto está licenciado sob a Licença MIT. Disponibilizarei o arquivo 'LICENSE' para mais detalhes.
